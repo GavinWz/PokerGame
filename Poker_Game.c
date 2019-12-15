@@ -3,46 +3,54 @@
 #include<time.h>
 #include<windows.h>
 
-/*Ëã·¨Ë¼Ïë£ºÓÃ¶ş²æÅÅĞòÊ÷´æ´¢ÓÃ»§ºÍÈË»úµÄÊÖÅÆ£¬*/
+/*ç®—æ³•æ€æƒ³ï¼š
+1. åˆ›å»ºç©å®¶å’Œäººæœºå„è‡ªçš„éšæœºæ•°æ•°ç»„ï¼Œç”¨äºç”Ÿæˆæ‰‹ç‰Œï¼Œé€šè¿‡åˆ›å»ºéšæœºæ•°å‡½æ•°å‘åŒæ–¹éšæœºæ•°æ•°ç»„ä¸­ç”Ÿæˆç­‰é‡éšæœºæ•°ä½œä¸ºæ‰‹ç‰Œã€‚
+2. åˆ›å»ºåŒæ–¹çš„äºŒå‰æ’åºæ ‘ï¼Œç”¨äºå­˜å‚¨å¹¶æ’åºå„è‡ªç”Ÿæˆçš„æ‰‹ç‰Œã€‚
+3. åˆ›å»ºåŒæ–¹çš„æ‰‹ç‰Œé“¾è¡¨ï¼Œå¹¶ä¸­åºéå†å„è‡ªçš„äºŒå‰æ’åºæ ‘ï¼Œå°†æ¯æ¬¡éå†åˆ°çš„æ‰‹ç‰Œç”¨å°¾æ’æ³•æ’å…¥é“¾è¡¨ï¼Œå¾—åˆ°é™åºçš„æ‰‹ç‰Œé“¾è¡¨
+4. ç¨‹åºæç¤ºç©å®¶å…ˆå‡ºç‰Œã€‚
+5. äººæœºä¼šåœ¨1ç§’ä¹‹ååšå‡ºååº”ï¼Œæœ‰ç‰Œå¤§çš„è¿‡ï¼ˆå³é“¾è¡¨è¡¨å¤´å…ƒç´ å¤§äºå¯¹æ–¹å‡ºç‰Œï¼‰åˆ™å‡ºç‰Œï¼Œå¦åˆ™ä¸å‡ºï¼Œç©å®¶ç»§ç»­å‡ºç‰Œã€‚
+6. è‹¥äººæœºå¤§çš„è¿‡ä¸”å‡ºç‰Œï¼Œåˆ™åˆ¤æ–­ç”¨æˆ·æ˜¯å¦å¤§çš„è¿‡ï¼Œè‹¥æ˜¯ï¼Œåˆ™ç”¨æˆ·å‡ºç‰Œï¼Œè‹¥ç”¨æˆ·è¦ä¸èµ·ï¼Œåˆ™æç¤ºæ²¡æœ‰ç‰Œå¯å¤§çš„è¿‡
+7. æ­¥éª¤5å’Œ6å¾ªç¯æ‰§è¡Œï¼Œç›´è‡³ä¸€æ–¹å‡ºç‰Œå®Œæ¯•ï¼Œç¨‹åºæç¤ºèƒœè´Ÿç»“æœ
+*/
 
-typedef struct node{  //¶ş²æÅÅĞòÊ÷½Úµã¶¨Òå 
+typedef struct node{  //äºŒå‰æ’åºæ ‘èŠ‚ç‚¹å®šä¹‰ 
     int key;
     struct node *lchild, *rchild;
 }*BSTree;
 
-typedef struct Node{  //Á´±í¶¨Òå 
+typedef struct Node{  //é“¾è¡¨å®šä¹‰ 
     int card;
     struct Node *next;
 }*LinkList;
 
-void Init_List(LinkList *L);  //Á´±íµÄ³õÊ¼»¯ 
-void Tail_Ins(LinkList L, int ins);  //Á´±íµÄÎ²²å·¨´´½¨º¯Êı 
-void Insert(BSTree *T,int value);  //¶ş²æÅÅĞòÊ÷µÄ²åÈëº¯Êı
-void Del_Link(LinkList L, int x);  //¶ş²æÅÅĞòÊ÷µÄÉ¾³ıº¯Êı
-void Tree_to_List(BSTree root, LinkList one_LinkList);  //½«Ò»¸ö¶ş²æÅÅĞòÊ÷ÖĞµÄÖµ´æµ½Á´±íÖĞ 
-void mknumber(int array[]);  //Éú³É5¸öËæ»úÊı²¢´æÈëarrayÊı×éÖĞ
-void get_cards(int user[], int computer[]);  //Éú³ÉÓÃ»§ºÍÈË»úµÄÊÖÅÆ 
-void Create(BSTree *user_tree, BSTree *computer_tree);  //½¨Á¢Á½¸ö¶ş²æÅÅĞòÊ÷ 
-void Display_cards(LinkList L);  //ÏÔÊ¾ÓÃ»§»òÈË»úµÄÊÖÅÆ 
-int Computer_against(LinkList computer_list, int card);  //ÈË»úµÄ³öÅÆÄ£Ê½ 
-int computer_show(LinkList L, int card);  //ÈË»úÔÚ³öÅÆºóÁÁ³öËù³öµÄÅÆ
-void computer_del(LinkList L, int card, int x); //ÈË»ú³öÅÆºóÉ¾³ıÁ´±íÖĞÏàÓ¦µÄÅÆ 
-int Exist(LinkList L, int card);  //ÅĞ¶ÏÓÃ»§ÏëÒª³öµÄÅÆÊÇ·ñ´æÔÚ 
-int User_against(LinkList user_list, int card);  //ÓÃ»§µÄ³öÅÆº¯Êı
-int Show_card();  //ÅĞ¶ÏÓÃ»§³öµÄÅÆÊÇ·ñÕıÈ· 
-void Out_List(LinkList L, int *x);  //³öÅÆÊ±¶ÔÏàÓ¦Á´±íÖĞÖµµÄÉ¾³ı 
-void Welcome(BSTree user_t, BSTree computer_t, LinkList user_l, LinkList computer_l);  //²Ëµ¥º¯Êı 
-void Game_begins(LinkList user_list, LinkList computer_list); //ÓÎÏ·¿ªÊ¼º¯Êı 
-void Clear_tree(BSTree root);  //Çå³ı¶ş²æÅÅĞòÊ÷ÖĞµÄËùÓĞ½Úµã 
-void Clear_list(LinkList L);  //Çå³ıÁ´±íÖĞµÄËùÓĞ½Úµã 
-void Clear(BSTree user_t, BSTree computer_t, LinkList user_l, LinkList computer_l); //Çå³ıËùÓĞĞÅÏ¢ 
+void Init_List(LinkList *L);  //é“¾è¡¨çš„åˆå§‹åŒ– 
+void Tail_Ins(LinkList L, int ins);  //é“¾è¡¨çš„å°¾æ’æ³•åˆ›å»ºå‡½æ•° 
+void Insert(BSTree *T,int value);  //äºŒå‰æ’åºæ ‘çš„æ’å…¥å‡½æ•°
+void Del_Link(LinkList L, int x);  //äºŒå‰æ’åºæ ‘çš„åˆ é™¤å‡½æ•°
+void Tree_to_List(BSTree root, LinkList one_LinkList);  //å°†ä¸€ä¸ªäºŒå‰æ’åºæ ‘ä¸­çš„å€¼å­˜åˆ°é“¾è¡¨ä¸­ 
+void mknumber(int array[]);  //ç”Ÿæˆ5ä¸ªéšæœºæ•°å¹¶å­˜å…¥arrayæ•°ç»„ä¸­
+void get_cards(int user[], int computer[]);  //ç”Ÿæˆç”¨æˆ·å’Œäººæœºçš„æ‰‹ç‰Œ 
+void Create(BSTree *user_tree, BSTree *computer_tree);  //å»ºç«‹ä¸¤ä¸ªäºŒå‰æ’åºæ ‘ 
+void Display_cards(LinkList L);  //æ˜¾ç¤ºç”¨æˆ·æˆ–äººæœºçš„æ‰‹ç‰Œ 
+int Computer_against(LinkList computer_list, int card);  //äººæœºçš„å‡ºç‰Œæ¨¡å¼ 
+int computer_show(LinkList L, int card);  //äººæœºåœ¨å‡ºç‰Œåäº®å‡ºæ‰€å‡ºçš„ç‰Œ
+void computer_del(LinkList L, int card, int x); //äººæœºå‡ºç‰Œååˆ é™¤é“¾è¡¨ä¸­ç›¸åº”çš„ç‰Œ 
+int Exist(LinkList L, int card);  //åˆ¤æ–­ç”¨æˆ·æƒ³è¦å‡ºçš„ç‰Œæ˜¯å¦å­˜åœ¨ 
+int User_against(LinkList user_list, int card);  //ç”¨æˆ·çš„å‡ºç‰Œå‡½æ•°
+int Show_card();  //åˆ¤æ–­ç”¨æˆ·å‡ºçš„ç‰Œæ˜¯å¦æ­£ç¡® 
+void Out_List(LinkList L, int *x);  //å‡ºç‰Œæ—¶å¯¹ç›¸åº”é“¾è¡¨ä¸­å€¼çš„åˆ é™¤ 
+void Welcome(BSTree user_t, BSTree computer_t, LinkList user_l, LinkList computer_l);  //èœå•å‡½æ•° 
+void Game_begins(LinkList user_list, LinkList computer_list); //æ¸¸æˆå¼€å§‹å‡½æ•° 
+void Clear_tree(BSTree root);  //æ¸…é™¤äºŒå‰æ’åºæ ‘ä¸­çš„æ‰€æœ‰èŠ‚ç‚¹ 
+void Clear_list(LinkList L);  //æ¸…é™¤é“¾è¡¨ä¸­çš„æ‰€æœ‰èŠ‚ç‚¹ 
+void Clear(BSTree user_t, BSTree computer_t, LinkList user_l, LinkList computer_l); //æ¸…é™¤æ‰€æœ‰ä¿¡æ¯ 
 
 void Init_List(LinkList *L){
 	(*L) = (LinkList)malloc(sizeof(struct Node));
 	(*L)->next = NULL;
 }
 
-void Tail_Ins(LinkList L, int ins){ //Î²²å·¨´´½¨
+void Tail_Ins(LinkList L, int ins){ //å°¾æ’æ³•åˆ›å»º
     LinkList s;
     s = (LinkList)malloc(sizeof(struct Node));
     s->next = L->next;
@@ -91,7 +99,7 @@ void Tree_to_List(BSTree root, LinkList one_LinkList){
 	}
 }
 
-void Insert(BSTree *T,int value){  //¶ş²æÅÅĞòÊ÷µÄ²åÈë²Ù×÷
+void Insert(BSTree *T,int value){  //äºŒå‰æ’åºæ ‘çš„æ’å…¥æ“ä½œ
     BSTree s;
     if((*T) == NULL){
         s = (BSTree)malloc(sizeof(struct node));
@@ -106,7 +114,7 @@ void Insert(BSTree *T,int value){  //¶ş²æÅÅĞòÊ÷µÄ²åÈë²Ù×÷
         Insert(&((*T)->rchild), value);
 }
 
-void mknumber(int array[]){ //ÏòÒ»¸öÊı×éÖĞ´æ´¢5¸öËæ»úÊı
+void mknumber(int array[]){ //å‘ä¸€ä¸ªæ•°ç»„ä¸­å­˜å‚¨5ä¸ªéšæœºæ•°
 	int i;
 	
 	for(i = 0; i < 5; i++){
@@ -122,14 +130,14 @@ void mknumber(int array[]){ //ÏòÒ»¸öÊı×éÖĞ´æ´¢5¸öËæ»úÊı
 }
 
 void get_cards(int user[], int computer[]){  //
-	srand((unsigned)time(NULL)); //ÒÔÏµÍ³Ê±¼äÀ´ÉèÖÃËæ»úÊıÉú³ÉÆ÷
+	srand((unsigned)time(NULL)); //ä»¥ç³»ç»Ÿæ—¶é—´æ¥è®¾ç½®éšæœºæ•°ç”Ÿæˆå™¨
 	mknumber(user);
-	srand((unsigned)time(NULL)*1234);  //ÎªÊ¹Ë«·½ÊÖÅÆ²»Í¬¶øÖØĞÂÉèÖÃËæ»úÊıÉú³ÉÆ÷
+	srand((unsigned)time(NULL)*1234);  //ä¸ºä½¿åŒæ–¹æ‰‹ç‰Œä¸åŒè€Œé‡æ–°è®¾ç½®éšæœºæ•°ç”Ÿæˆå™¨
 	mknumber(computer);
 }
 
 void Create(BSTree *user_tree, BSTree *computer_tree){
-	/*Éú³ÉÓÃ»§ºÍÈË»úÊÖÅÆµÄËæ»úÊıÊı×é£¬²¢´æ´¢µ½¸÷×ÔµÄ¶ş²æÅÅĞòÊ÷ÖĞ*/
+	/*ç”Ÿæˆç”¨æˆ·å’Œäººæœºæ‰‹ç‰Œçš„éšæœºæ•°æ•°ç»„ï¼Œå¹¶å­˜å‚¨åˆ°å„è‡ªçš„äºŒå‰æ’åºæ ‘ä¸­*/
     int i;
     *user_tree = NULL;
     *computer_tree = NULL;
